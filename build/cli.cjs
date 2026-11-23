@@ -124,6 +124,7 @@ async function loadSymbols(symFileName) {
 */
 
 function r1csPrint$1(r1cs, syms, logger) {
+    const F = r1cs.F || r1cs.curve.Fr;
     for (let i=0; i<r1cs.constraints.length; i++) {
         printCostraint(r1cs.constraints[i]);
     }
@@ -132,12 +133,12 @@ function r1csPrint$1(r1cs, syms, logger) {
             let S = "";
             const keys = Object.keys(lc);
             keys.forEach( (k) => {
-                let name = syms.varIdx2Name[k];
-                if (name == "one") name = "1";
-
-                let vs = r1cs.curve.Fr.toString(lc[k]);
-                if (vs == "1") vs = "";  // Do not show ones
-                if (vs == "-1") vs = "-";  // Do not show ones
+                const name = k === "0" ? "" : syms.varIdx2Name[k];
+                let vs = F.toString(lc[k]);
+                if (k !== "0") {
+                    if (vs == "1") vs = "";
+                    if (vs == "-1") vs = "-";
+                }
                 if ((S!="")&&(vs[0]!="-")) vs = "+"+vs;
                 if (S!="") vs = " "+vs;
                 S= S + vs   + name;
