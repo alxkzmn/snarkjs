@@ -18,6 +18,7 @@
 */
 
 export default function r1csPrint(r1cs, syms, logger) {
+    const F = r1cs.F || r1cs.curve.Fr;
     for (let i=0; i<r1cs.constraints.length; i++) {
         printCostraint(r1cs.constraints[i]);
     }
@@ -29,7 +30,7 @@ export default function r1csPrint(r1cs, syms, logger) {
                 let name = syms.varIdx2Name[k];
                 if (name == "one") name = "1";
 
-                let vs = r1cs.curve.Fr.toString(lc[k]);
+                let vs = F.toString(lc[k]);
                 if (vs == "1") vs = "";  // Do not show ones
                 if (vs == "-1") vs = "-";  // Do not show ones
                 if ((S!="")&&(vs[0]!="-")) vs = "+"+vs;
