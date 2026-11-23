@@ -21,4 +21,10 @@ describe("r1cs.print", function () {
         const row = [{ 1: F.one }, { 2: F.one }, {}];
         assert.deepStrictEqual(printRow({ curve: { Fr: F } }, row), ["[ x ] * [ y ] - [  ] = 0"]);
     });
+
+    it("prints the coefficient of wire zero as a constant", function () {
+        const row = [{ 0: 2n, 1: F.negone }, { 0: F.neg(2n), 2: F.one }, { 0: F.one }];
+        assert.deepStrictEqual(printRow({ F }, row), ["[ 2 -x ] * [ -2 +y ] - [ 1 ] = 0"]);
+        assert.deepStrictEqual(printRow({ F }, [{ 0: F.negone }, {}, {}]), ["[ -1 ] * [  ] - [  ] = 0"]);
+    });
 });

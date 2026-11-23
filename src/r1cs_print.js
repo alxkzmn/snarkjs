@@ -27,12 +27,12 @@ export default function r1csPrint(r1cs, syms, logger) {
             let S = "";
             const keys = Object.keys(lc);
             keys.forEach( (k) => {
-                let name = syms.varIdx2Name[k];
-                if (name == "one") name = "1";
-
+                const name = k === "0" ? "" : syms.varIdx2Name[k];
                 let vs = F.toString(lc[k]);
-                if (vs == "1") vs = "";  // Do not show ones
-                if (vs == "-1") vs = "-";  // Do not show ones
+                if (k !== "0") {
+                    if (vs == "1") vs = "";
+                    if (vs == "-1") vs = "-";
+                }
                 if ((S!="")&&(vs[0]!="-")) vs = "+"+vs;
                 if (S!="") vs = " "+vs;
                 S= S + vs   + name;
